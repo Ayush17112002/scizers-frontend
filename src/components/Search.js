@@ -9,7 +9,7 @@ function KMPSearch(pat, txt) {
   txt = txt.toLowerCase();
   let M = pat.length;
   let N = txt.length;
-
+  console.log(M, N);
   let lps = new Array(M);
 
   // Preprocess the pattern (calculate lps[] array)
@@ -87,9 +87,11 @@ export default function Search({ onSearch }) {
       for (const contact of contacts) {
         let { name, phone, id } = JSON.parse(JSON.stringify(contact));
         let splittedName = name.split(" ");
-        //console.log(splittedName);
         for (const val of splittedName) {
-          if (KMPSearch(filter.phrase, val) || KMPSearch(filter.phrase, val)) {
+          if (
+            KMPSearch(filter.phrase, val) ||
+            KMPSearch(filter.phrase, phone)
+          ) {
             filteredContacts.push({ name, phone, id });
             break;
           }
