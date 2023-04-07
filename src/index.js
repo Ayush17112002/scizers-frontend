@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Root from "./routes/root";
 import { loader as contactLoader } from "./routes/contact";
-import { Contact } from "./components/Contact";
 import EditContact from "./components/EditContact";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";

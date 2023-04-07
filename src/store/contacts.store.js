@@ -57,11 +57,11 @@ const store = createStore((state = initialState, action) => {
 
 function isUnique(phone, state) {
   let id = null;
-  state.contacts.map((contact) => {
+  for (const contact of state.contacts) {
     if (Number(contact.phone) === Number(phone)) {
       id = contact.id;
     }
-  });
+  }
   return id;
 }
 export default store;
