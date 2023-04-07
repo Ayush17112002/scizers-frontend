@@ -64,7 +64,7 @@ export default function Search(props) {
     return () => {
       clearInterval(id);
     };
-  }, [filter, contacts]);
+  }, [filter, contacts, props]);
 
   return (
     <>
