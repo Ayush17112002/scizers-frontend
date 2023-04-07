@@ -36,6 +36,7 @@ export default function ContactList() {
           className="d-flex justify-content-between align-items-start"
           key={contact.id}
         >
+          <img src={icon} alt="icon"></img>
           <div className="ms-2 me-auto">
             <div className="fw-bold">
               {contact.name[0].toUpperCase() + contact.name.slice(1)}{" "}
@@ -45,7 +46,7 @@ export default function ContactList() {
           <>
             <Badge bg="light" pill>
               <Link to={`/contact/${contact.id}/edit`}>
-                <img src={edit} className="icon"></img>
+                <img src={edit} className="icon" alt="Edit"></img>
               </Link>
             </Badge>
           </>
@@ -55,6 +56,7 @@ export default function ContactList() {
               src={trash}
               className={contact.id}
               onClick={deleteContactHandler}
+              alt="Delete"
             ></img>
           </Badge>
         </ListGroup.Item>

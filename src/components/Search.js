@@ -8,7 +8,6 @@ export default function Search(props) {
   // search and sort
   // function to update display
   const contacts = useSelector((state) => state.contacts);
-  let filteredContacts = JSON.parse(JSON.stringify(contacts));
   const [filter, setFilter] = useState({
     phrase: "",
     sortByName: false,
@@ -30,6 +29,7 @@ export default function Search(props) {
     });
   }
   useEffect(() => {
+    let filteredContacts = JSON.parse(JSON.stringify(contacts));
     const id = setTimeout(() => {
       //SEARCH
       filteredContacts = [];
