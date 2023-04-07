@@ -87,14 +87,19 @@ export default function Search({ onSearch }) {
       for (const contact of contacts) {
         let { name, phone, id } = JSON.parse(JSON.stringify(contact));
         let splittedName = name.split(" ");
+        let found = false;
         for (const val of splittedName) {
           if (
             KMPSearch(filter.phrase, val) ||
             KMPSearch(filter.phrase, phone)
           ) {
             filteredContacts.push({ name, phone, id });
+            found = true;
             break;
           }
+        }
+        if (!found && KMPSearch(filter.phrase, name)) {
+          filteredContacts.push({ name, phone, id });
         }
       }
 
