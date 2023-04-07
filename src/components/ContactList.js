@@ -25,7 +25,7 @@ export default function ContactList() {
   }
 
   function displayHandler(filteredContacts) {
-    setDisplay(filteredContacts);
+    setDisplay((state) => filteredContacts);
   }
 
   if (display.length > 0) {

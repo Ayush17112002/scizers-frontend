@@ -1,8 +1,60 @@
+/* eslint-disable */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { InputGroup, Form } from "react-bootstrap";
+function KMPSearch(pat, txt) {
+  pat = String(pat);
+  txt = String(txt);
+  pat = pat.toLowerCase();
+  txt = txt.toLowerCase();
+  let M = pat.length;
+  let N = txt.length;
 
-export default function Search(props) {
+  let lps = new Array(M);
+
+  // Preprocess the pattern (calculate lps[] array)
+  computeLPSArray(pat, M, lps);
+
+  let i = 0; // index for txt[]
+  let j = 0; // index for pat[]
+  while (N - i >= M - j) {
+    if (pat[j] === txt[i]) {
+      j++;
+      i++;
+    }
+
+    if (j === M) {
+      return true;
+      j = lps[j - 1];
+    } else if (i < N && pat[j] !== txt[i]) {
+      if (j !== 0) j = lps[j - 1];
+      else i = i + 1;
+    }
+  }
+  return false;
+}
+function computeLPSArray(pat, M, lps) {
+  let len = 0;
+
+  lps[0] = 0;
+
+  let i = 1;
+  while (i < M) {
+    if (pat[i] === pat[len]) {
+      len++;
+      lps[i] = len;
+      i++;
+    } else {
+      if (len !== 0) {
+        len = lps[len - 1];
+      } else {
+        lps[i] = 0;
+        i++;
+      }
+    }
+  }
+}
+export default function Search({ onSearch }) {
   // search phrase
   // sort by name || phone
   // search and sort
@@ -29,20 +81,18 @@ export default function Search(props) {
     });
   }
   useEffect(() => {
-    let filteredContacts = JSON.parse(JSON.stringify(contacts));
     const id = setTimeout(() => {
       //SEARCH
-      filteredContacts = [];
+      let filteredContacts = [];
       for (const contact of contacts) {
         let { name, phone, id } = JSON.parse(JSON.stringify(contact));
         let splittedName = name.split(" ");
+        //console.log(splittedName);
         for (const val of splittedName) {
-          if (
-            val.startsWith(filter.phrase.toLocaleLowerCase()) ||
-            String(phone).startsWith(filter.phrase)
-          )
+          if (KMPSearch(filter.phrase, val) || KMPSearch(filter.phrase, val)) {
             filteredContacts.push({ name, phone, id });
-          break;
+            break;
+          }
         }
       }
 
@@ -59,12 +109,12 @@ export default function Search(props) {
         });
       }
 
-      props.onSearch(filteredContacts);
+      onSearch(filteredContacts);
     }, 500);
     return () => {
       clearInterval(id);
     };
-  }, [filter, contacts, props]);
+  }, [filter, contacts, onSearch]);
 
   return (
     <>
