@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import icon from "../images/icon.jpg";
@@ -14,7 +14,6 @@ export default function ContactList() {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.error);
   let [display, setDisplay] = useState([]);
-
   if (error !== null) {
     alert(error);
     dispatch({ type: "ERROR" });
@@ -24,9 +23,9 @@ export default function ContactList() {
     dispatch({ type: "DELETE", payload: { id: id } });
   }
 
-  function displayHandler(filteredContacts) {
+  const displayHandler = useCallback((filteredContacts) => {
     setDisplay((state) => filteredContacts);
-  }
+  }, []);
 
   if (display.length > 0) {
     display = display.map((contact) => {

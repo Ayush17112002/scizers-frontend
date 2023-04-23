@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useSelector } from "react-redux";
 import { InputGroup, Form } from "react-bootstrap";
 function KMPSearch(pat, txt) {
@@ -9,7 +8,6 @@ function KMPSearch(pat, txt) {
   txt = txt.toLowerCase();
   let M = pat.length;
   let N = txt.length;
-  console.log(M, N);
   let lps = new Array(M);
 
   // Preprocess the pattern (calculate lps[] array)
@@ -54,7 +52,7 @@ function computeLPSArray(pat, M, lps) {
     }
   }
 }
-export default function Search({ onSearch }) {
+function Search({ onSearch }) {
   // search phrase
   // sort by name || phone
   // search and sort
@@ -161,3 +159,4 @@ export default function Search({ onSearch }) {
     </>
   );
 }
+export default memo(Search);
